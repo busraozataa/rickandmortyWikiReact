@@ -6,41 +6,23 @@ import Card from "./components/Cards/Card";
 import Filter from "./components/Filters/Filter";
 import axios from "axios";
 import Pagination from "./components/Pagination/Pagination";
+import Search from "./components/Search/Search";
+import Navbar from "./components/Navbar/Navbar";
+
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Location from "./Pages/Location";
+import Episodes from "./Pages/Episodes";
+import Home from "./Pages/Home";
+
 function App() {
-  let [pageNumber, setPageNumber] = useState(1);
-
-  console.log(pageNumber);
-  let [fetchedData, updateFetchedData] = useState([]);
-  let api = `${process.env.REACT_APP_API_URI}/character/?page=${pageNumber}`;
-
-  let { info, results } = fetchedData;
-
-  useEffect(() => {
-    (async function () {
-      let response = await axios(api);
-      updateFetchedData(response.data);
-    })();
-  }, [api]);
-
   return (
     <>
-      <h1 className="text-center ubuntu my-5">
-        Rick & Morty <span className="text-primary">WiKi</span>
-      </h1>
-
-      <div className="container">
-        <div className="row">
-          <div className="col-lg-3">
-            <Filter />
-          </div>
-          <div className="col-lg-9">
-            <div className="row">
-              <Card results={results} />
-            </div>
-          </div>
-        </div>
-      </div>
-      <Pagination pageNumber={pageNumber} setPageNumber={setPageNumber} />
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/episodes" element={<Episodes />} />
+        <Route path="/location" element={<Location />} />
+      </Routes>
     </>
   );
 }
